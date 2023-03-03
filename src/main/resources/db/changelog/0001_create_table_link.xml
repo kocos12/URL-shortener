@@ -10,6 +10,7 @@
             </column>
             <column name="name" type="VARCHAR(100)"/>
             <column name="target_url" type="VARCHAR(200)"/>
+            <column name="redirect_url" type="VARCHAR(200)"/>
             <column name="visits" type="INT"/>
         </createTable>
     </changeSet>
