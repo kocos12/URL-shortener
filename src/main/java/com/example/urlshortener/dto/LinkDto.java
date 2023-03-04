@@ -1,17 +1,17 @@
 package com.example.urlshortener.dto;
 
 public class LinkDto {
-    private Long id;
+    private String id;
     private String name;
     private String targetUrl;
     private String redirectUrl;
     private int visits;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

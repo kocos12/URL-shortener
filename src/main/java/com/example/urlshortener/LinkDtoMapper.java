@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 public class LinkDtoMapper {
      Link map (LinkCreateDto linkCreateDto){
         Link newLink = new Link();
+        String randomId = RandomIdGenerator.generateId();
+        newLink.setId(randomId);
         newLink.setName(linkCreateDto.getName());
         newLink.setTargetUrl(linkCreateDto.getTargetUrl());
         newLink.setVisits(0);
-        newLink.setRedirectUrl("");
+        newLink.setRedirectUrl("http://localhost:8080/redir/" + randomId);
         return newLink;
     }
 
@@ -20,7 +22,7 @@ public class LinkDtoMapper {
         linkDto.setId(link.getId());
         linkDto.setName(link.getName());
         linkDto.setRedirectUrl(link.getRedirectUrl());
-        linkDto.setTargetUrl(linkDto.getTargetUrl());
+        linkDto.setTargetUrl(link.getTargetUrl());
         linkDto.setVisits(link.getVisits());
         return linkDto;
     }
