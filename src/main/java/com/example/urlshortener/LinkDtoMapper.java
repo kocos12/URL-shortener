@@ -17,7 +17,7 @@ public class LinkDtoMapper {
         return newLink;
     }
 
-     LinkDto map (Link link){
+     static LinkDto map(Link link){
         LinkDto linkDto = new LinkDto();
         linkDto.setId(link.getId());
         linkDto.setName(link.getName());

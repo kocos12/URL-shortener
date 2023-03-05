@@ -4,6 +4,8 @@ import com.example.urlshortener.dto.LinkCreateDto;
 import com.example.urlshortener.dto.LinkDto;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class LinkService {
 
@@ -19,5 +21,10 @@ public class LinkService {
         Link linkToSave = linkDtoMapper.map(newLink);
         Link savedLink = linkRepository.save(linkToSave);
         return linkDtoMapper.map(savedLink);
+    }
+
+    public Optional<LinkDto> findLinkById (String id){
+        return linkRepository.findById(id)
+                .map(LinkDtoMapper::map);
     }
 }
