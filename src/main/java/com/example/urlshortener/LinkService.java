@@ -3,6 +3,7 @@ package com.example.urlshortener;
 import com.example.urlshortener.dto.LinkCreateDto;
 import com.example.urlshortener.dto.LinkDto;
 import com.example.urlshortener.dto.LinkUpdateDto;
+import com.example.urlshortener.exceptions.LinkNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,10 +41,10 @@ public class LinkService {
     public void updateLink(String id, LinkUpdateDto linkUpdateDto) {
         linkRepository.findById(id).ifPresent(l -> l.setName(linkUpdateDto.getName()));
     }
-    public Boolean checkPasswd (String id, LinkUpdateDto linkUpdateDto){
+    public Boolean checkPasswd (String id, LinkUpdateDto linkUpdateDto) throws LinkNotFoundException {
         return linkRepository.findById(id)
                 .map(l -> l.getPasswd().equals(linkUpdateDto.getPasswd()))
-                .orElseThrow();
+                .orElseThrow(LinkNotFoundException::new);
 
     }
 }

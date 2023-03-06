@@ -3,6 +3,7 @@ package com.example.urlshortener;
 import com.example.urlshortener.dto.LinkCreateDto;
 import com.example.urlshortener.dto.LinkDto;
 import com.example.urlshortener.dto.LinkUpdateDto;
+import com.example.urlshortener.exceptions.LinkNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -40,10 +41,16 @@ public class LinkController {
     @PatchMapping("/{id}")
     ResponseEntity<?> updateLinkName (@PathVariable String id,
                                       @RequestBody LinkUpdateDto linkUpdateDto){
-       if(linkService.checkPasswd(id, linkUpdateDto)){
-           linkService.updateLink(id, linkUpdateDto);
-           return ResponseEntity.noContent().build();
-       }
-       return ResponseEntity.badRequest().build();
+
+        try {
+            if(linkService.checkPasswd(id, linkUpdateDto)){
+                linkService.updateLink(id, linkUpdateDto);
+                return ResponseEntity.noContent().build();
+            }else{
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+        }catch (LinkNotFoundException exception){
+            return ResponseEntity.notFound().build();
+        }
     }
 }
