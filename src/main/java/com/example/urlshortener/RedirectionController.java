@@ -20,7 +20,7 @@ public class RedirectionController {
     }
     @GetMapping("/{id}")
     ResponseEntity<?> redirection(@PathVariable String id){
-        return linkService.findLinkById(id)
+        return linkService.incrementVisit(id)
                 .map(LinkDto::getTargetUrl)
                 .map(targetUrl -> ResponseEntity
                         .status(HttpStatus.FOUND)

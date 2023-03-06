@@ -3,16 +3,14 @@ package com.example.urlshortener;
 import com.example.urlshortener.dto.LinkCreateDto;
 import com.example.urlshortener.dto.LinkDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/links")
 public class LinkController {
     private final LinkService linkService;
 
@@ -20,7 +18,7 @@ public class LinkController {
         this.linkService = linkService;
     }
 
-    @PostMapping("/links")
+    @PostMapping
     ResponseEntity<LinkDto> addLink (@RequestBody LinkCreateDto linkCreateDto){
         LinkDto addedLink = linkService.addNewLink(linkCreateDto);
         URI savedEntityLocation = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -28,5 +26,11 @@ public class LinkController {
                 .buildAndExpand(addedLink.getId())
                 .toUri();
         return ResponseEntity.created(savedEntityLocation).body(addedLink);
+    }
+
+    @GetMapping("/{id}")
+    ResponseEntity<?> getLinkInfo (@PathVariable String id){
+        Optional<LinkDto> linkDto = linkService.findLinkById(id);
+        return ResponseEntity.of(linkDto);
     }
 }
