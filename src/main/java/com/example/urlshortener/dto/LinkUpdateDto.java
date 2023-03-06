@@ -1,9 +1,8 @@
 package com.example.urlshortener.dto;
 
-public class LinkCreateDto {
+public class LinkUpdateDto {
     private String name;
     private String passwd;
-    private String targetUrl;
 
     public String getName() {
         return name;
@@ -13,13 +12,6 @@ public class LinkCreateDto {
         this.name = name;
     }
 
-    public String getTargetUrl() {
-        return targetUrl;
-    }
-
-    public void setTargetUrl(String targetUrl) {
-        this.targetUrl = targetUrl;
-    }
     public String getPasswd() {
         return passwd;
     }

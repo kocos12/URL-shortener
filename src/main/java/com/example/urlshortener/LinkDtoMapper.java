@@ -14,6 +14,7 @@ public class LinkDtoMapper {
         newLink.setTargetUrl(linkCreateDto.getTargetUrl());
         newLink.setVisits(0);
         newLink.setRedirectUrl("http://localhost:8080/redir/" + randomId);
+        newLink.setPasswd(linkCreateDto.getPasswd());
         return newLink;
     }
 

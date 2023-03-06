@@ -11,6 +11,7 @@ public class Link {
     @Id
     private String id;
     private String name;
+    private String passwd;
     private String targetUrl;
     private String redirectUrl;
     private int visits;
@@ -56,5 +57,13 @@ public class Link {
 
     public void setVisits(int visits) {
         this.visits = visits;
+    }
+
+    public String getPasswd() {
+        return passwd;
+    }
+
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
     }
 }

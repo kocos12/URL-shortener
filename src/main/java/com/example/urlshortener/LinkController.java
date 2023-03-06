@@ -2,6 +2,9 @@ package com.example.urlshortener;
 
 import com.example.urlshortener.dto.LinkCreateDto;
 import com.example.urlshortener.dto.LinkDto;
+import com.example.urlshortener.dto.LinkUpdateDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,5 +35,15 @@ public class LinkController {
     ResponseEntity<?> getLinkInfo (@PathVariable String id){
         Optional<LinkDto> linkDto = linkService.findLinkById(id);
         return ResponseEntity.of(linkDto);
+    }
+
+    @PatchMapping("/{id}")
+    ResponseEntity<?> updateLinkName (@PathVariable String id,
+                                      @RequestBody LinkUpdateDto linkUpdateDto){
+       if(linkService.checkPasswd(id, linkUpdateDto)){
+           linkService.updateLink(id, linkUpdateDto);
+           return ResponseEntity.noContent().build();
+       }
+       return ResponseEntity.badRequest().build();
     }
 }

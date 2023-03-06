@@ -2,6 +2,7 @@ package com.example.urlshortener;
 
 import com.example.urlshortener.dto.LinkCreateDto;
 import com.example.urlshortener.dto.LinkDto;
+import com.example.urlshortener.dto.LinkUpdateDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,5 +34,16 @@ public class LinkService {
         Optional<Link> linkById = linkRepository.findById(id);
         linkById.ifPresent(l -> l.setVisits(l.getVisits()+1));
         return linkById.map(LinkDtoMapper::map);
+    }
+
+    @Transactional
+    public void updateLink(String id, LinkUpdateDto linkUpdateDto) {
+        linkRepository.findById(id).ifPresent(l -> l.setName(linkUpdateDto.getName()));
+    }
+    public Boolean checkPasswd (String id, LinkUpdateDto linkUpdateDto){
+        return linkRepository.findById(id)
+                .map(l -> l.getPasswd().equals(linkUpdateDto.getPasswd()))
+                .orElseThrow();
+
     }
 }
