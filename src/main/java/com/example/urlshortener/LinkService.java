@@ -41,10 +41,18 @@ public class LinkService {
     public void updateLink(String id, LinkUpdateDto linkUpdateDto) {
         linkRepository.findById(id).ifPresent(l -> l.setName(linkUpdateDto.getName()));
     }
-    public Boolean checkPasswd (String id, LinkUpdateDto linkUpdateDto) throws LinkNotFoundException {
+    public Boolean checkPasswd (String id, LinkUpdateDto linkUpdateDto) throws LinkNotFoundException, NullPointerException {
         return linkRepository.findById(id)
                 .map(l -> l.getPasswd().equals(linkUpdateDto.getPasswd()))
                 .orElseThrow(LinkNotFoundException::new);
+    }
+    public Boolean checkPasswd (String id, String passwd) throws LinkNotFoundException, NullPointerException {
+        return linkRepository.findById(id)
+                .map(l -> l.getPasswd().equals(passwd))
+                .orElseThrow(LinkNotFoundException::new);
+    }
 
+    public void deleteLink(String id) {
+        linkRepository.deleteById(id);
     }
 }

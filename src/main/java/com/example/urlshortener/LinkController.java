@@ -5,7 +5,6 @@ import com.example.urlshortener.dto.LinkDto;
 import com.example.urlshortener.dto.LinkUpdateDto;
 import com.example.urlshortener.exceptions.LinkNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -41,16 +40,38 @@ public class LinkController {
     @PatchMapping("/{id}")
     ResponseEntity<?> updateLinkName (@PathVariable String id,
                                       @RequestBody LinkUpdateDto linkUpdateDto){
-
         try {
             if(linkService.checkPasswd(id, linkUpdateDto)){
                 linkService.updateLink(id, linkUpdateDto);
                 return ResponseEntity.noContent().build();
             }else{
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .header("reason", "wrong password")
+                        .build();
             }
         }catch (LinkNotFoundException exception){
             return ResponseEntity.notFound().build();
+        }catch (NullPointerException exception){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .header("reason", "wrong password")
+                    .build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<?> deleteLink (@PathVariable String id,
+                                  @RequestHeader String passwd){
+        try {
+            if(linkService.checkPasswd(id, passwd)){
+                linkService.deleteLink(id);
+                return ResponseEntity.noContent().build();
+            }else{
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .header("reason", "wrong password")
+                        .build();
+            }
+        }catch (LinkNotFoundException exception){
+            return ResponseEntity.noContent().build();
         }
     }
 }
